@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/emailjs.min.js"></script>
   
   <style>
     /* ============================================================
@@ -1354,6 +1355,11 @@
         <span></span><span></span><span></span>
       </button>
     </div>
+    <div>
+      <p>Reach out quickly</p>
+      <a href="https://wa.me/918939770944" target="_blank" class="btn btn-primary"><i class="bi bi-whatsapp"></i>WhatsApp</a>
+      <a href="mailto:info@nexusstudio.in" class="btn btn-ghost"><i class="bi bi-envelope"></i>Email</a>
+    </div>
   </nav>
 
   <!-- Mobile Menu -->
@@ -2073,44 +2079,7 @@
     /* ============================================================
        CONTACT FORM SUBMISSION (Frontend Mock)
     ============================================================ */
-    const contactForm = document.getElementById('contactForm');
-    const toast = document.getElementById('toast');
-
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      // Basic validation
-      const required = contactForm.querySelectorAll('[required]');
-      let valid = true;
-      required.forEach(field => {
-        if (!field.value.trim()) {
-          field.style.borderColor = 'var(--accent2)';
-          valid = false;
-        } else {
-          field.style.borderColor = '';
-        }
-      });
-
-      if (!valid) return;
-
-      // Simulate submission (replace with actual API call)
-      const submitBtn = contactForm.querySelector('[type="submit"]');
-      submitBtn.textContent = 'Sending...';
-      submitBtn.disabled = true;
-
-      setTimeout(() => {
-        contactForm.reset();
-        submitBtn.innerHTML = 'Send Message <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        submitBtn.disabled = false;
-
-        // Show toast
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 4000);
-
-        // API integration point:
-        // fetch('/api/contact', { method: 'POST', body: formData })
-      }, 1500);
-    });
+    
 
     /* ============================================================
        SMOOTH ACTIVE NAV LINKS
@@ -2185,6 +2154,56 @@
       document.querySelectorAll('.hero .reveal').forEach(el => {
         el.classList.add('visible');
       });
+    });
+  </script>
+  <script>
+    // Initialize EmailJS with your public key
+    emailjs.init('UuNgGolvdiBYHbVqh');
+
+    // Get the form element
+    const contactForm = document.getElementById('contactForm');
+    const toast = document.getElementById('toast');
+
+    // Add event listener for form submission
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Basic validation
+        const required = contactForm.querySelectorAll('[required]');
+        let valid = true;
+        required.forEach(field => {
+            if (!field.value.trim()) {
+                field.style.borderColor = 'var(--accent2)';
+                valid = false;
+            } else {
+                field.style.borderColor = '';
+            }
+        });
+
+        if (!valid) return;
+
+        // Get submit button
+        const submitBtn = contactForm.querySelector('[type="submit"]');
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        // Send the form data using EmailJS
+        emailjs.sendForm('service_nh9bwu8', 'template_1thct76', this)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                contactForm.reset();
+                submitBtn.innerHTML = 'Send Message <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                submitBtn.disabled = false;
+
+                // Show toast
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 4000);
+            }, function(error) {
+                console.log('FAILED...', error);
+                submitBtn.innerHTML = 'Send Message <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                submitBtn.disabled = false;
+                alert('Failed to send message. Please try again.');
+            });
     });
   </script>
 </body>

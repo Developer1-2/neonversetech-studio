@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/emailjs.min.js"></script>
+  
   
   <style>
     /* ============================================================
@@ -2158,6 +2158,7 @@
   </script>
   <script>
     // Initialize EmailJS with your public key
+    import emailjs from 'node_modules/@emailjs/browser';
     emailjs.init('UuNgGolvdiBYHbVqh');
 
     // Get the form element
